@@ -15,6 +15,7 @@
   <script>
     let player = null;
     let interval = null;
+    let preventSeekToAutoplay = false;
     const parsedUrl = new URL(window.location.href);
     const UrlQueryData = parsedUrl.searchParams.get('data');
     const {
@@ -101,7 +102,12 @@
     }
 
     function onStateChange(event) {
-      if (event.data === YT.PlayerState.PLAYING) {
+      if (preventSeekToAutoplay && (event.data === YT.PlayerState.BUFFERING || event.data === YT.PlayerState.UNSTARTED || event.data === YT.PlayerState.PLAYING)) {
+        player.pauseVideo();
+        preventSeekToAutoplay = false;
+        clearInterval(interval);
+        interval = null;
+      } else if (event.data === YT.PlayerState.PLAYING) {
         if (interval === null) {
           interval = setInterval(() => sendMessageToRN({ eventType: onProgressId, data: player.getCurrentTime() }), 1000);
         }
@@ -109,6 +115,13 @@
         clearInterval(interval);
         interval = null;
       }
+    }
+
+    function seekToSafe(value, allowSeekAhead = true) {
+      if (player.getPlayerState() === YT.PlayerState.UNSTARTED) {
+        preventSeekToAutoplay = true;
+      }
+      player.seekTo(value, allowSeekAhead);
     }
 
     function onFullScreenChange() {
