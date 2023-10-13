@@ -118,7 +118,8 @@
     }
 
     function seekToSafe(value, allowSeekAhead = true) {
-      if (player.getPlayerState() === YT.PlayerState.UNSTARTED) {
+      const state = player.getPlayerState();
+      if (state === YT.PlayerState.UNSTARTED || state === YT.PlayerState.CUED) {
         preventSeekToAutoplay = true;
       }
       player.seekTo(value, allowSeekAhead);
