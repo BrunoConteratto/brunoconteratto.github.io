@@ -49,11 +49,10 @@
       onFullScreenChangeId = undefined
     } = UrlQueryData ? JSON.parse(UrlQueryData) : {};
 
-    // TEST IFRAME
-    document.addEventListener("DOMContentLoaded", function(e) {
-      document.getElementById('yt-player').src = `https://www.youtube.com/embed/${videoId}?enablejsapi=1&html5=1&mute=1&rel=0`;
-    });
-
+    // Iframe Mode
+    // document.addEventListener("DOMContentLoaded", function(e) {
+    //   document.getElementById('yt-player').src = `https://www.youtube-nocookie.com/embed/${videoId}?enablejsapi=1&html5=1&mute=1`;
+    // });
 
     const tag = document.createElement('script');
     tag.src = 'https://www.youtube.com/iframe_api';
@@ -111,6 +110,7 @@
     function onStateChange(event) {
       if (rel === 0 && event.data === YT.PlayerState.ENDED) {
         player.stopVideo();
+        return;
       }
       if (preventSeekToAutoplay) {
         player.pauseVideo();
@@ -162,8 +162,8 @@
 </head>
 
 <body>
-  <!-- <div id="yt-player" style="position: absolute;"></div> -->
-  <iframe id="yt-player" frameborder="0" allowfullscreen style="position: absolute; width: 100%; height: 100%;"></iframe>
+  <div id="yt-player" style="position: absolute;"></div>
+  <!-- <iframe id="yt-player" frameborder="0" allowfullscreen style="position: absolute; width: 100%; height: 100%;"></iframe> -->
 </body>
 
 </html>
