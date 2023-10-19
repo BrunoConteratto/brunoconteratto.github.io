@@ -108,10 +108,10 @@
     }
 
     function onStateChange(event) {
-      if (rel === 0 && event.data === YT.PlayerState.ENDED) {
-        player.stopVideo();
-        return;
-      }
+      // if (rel === 0 && event.data === YT.PlayerState.ENDED) {
+      //   player.stopVideo();
+      //   return;
+      // }
       if (preventSeekToAutoplay) {
         player.pauseVideo();
         preventSeekToAutoplay = false;
