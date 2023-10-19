@@ -50,25 +50,15 @@
     } = UrlQueryData ? JSON.parse(UrlQueryData) : {};
 
     // TEST IFRAME
-    let loaded = false;
     document.addEventListener("DOMContentLoaded", function(e) {
-      console.log('set source');
-      document.getElementById('yt-player').src = `https://www.youtube.com/embed/${videoId}?enablejsapi=1&html5=1`;
-      loaded = true;
+      document.getElementById('yt-player').src = `https://www.youtube.com/embed/${videoId}?enablejsapi=1&html5=1&mute=1&rel=0`;
     });
-    function iframeDidLoad() {
-      if (!loaded) return;
-      console.log('iframeDidLoad');
-      const tag = document.createElement('script');
-      tag.src = 'https://www.youtube.com/iframe_api';
-      const firstScriptTag = document.getElementsByTagName('script')[0];
-      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-    }
 
-    // const tag = document.createElement('script');
-    // tag.src = 'https://www.youtube.com/iframe_api';
-    // const firstScriptTag = document.getElementsByTagName('script')[0];
-    // firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+    const tag = document.createElement('script');
+    tag.src = 'https://www.youtube.com/iframe_api';
+    const firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
     function onYouTubeIframeAPIReady() {
       player = new YT.Player('yt-player', {
         height: '100%',
@@ -173,7 +163,7 @@
 
 <body>
   <!-- <div id="yt-player" style="position: absolute;"></div> -->
-  <iframe id="yt-player" frameborder="0" allowfullscreen style="position: absolute;" onLoad="iframeDidLoad();"></iframe>
+  <iframe id="yt-player" frameborder="0" allowfullscreen style="position: absolute; width: 100%; height: 100%;"></iframe>
 </body>
 
 </html>
